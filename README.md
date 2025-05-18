@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This repository contains my solutions to a SQL proficiency assessment involving customer banking data across savings and investment plans. The queries were written to answer four business-focused questions, demonstrating data aggregation, filtering, and customer segmentation using SQL.
+This repository contains my solutions to a SQL proficiency assessment involving customer banking data across savings and investment plans. The queries were written to answer four business-focused questions, demonstrating data aggregation, filtering, and customer segmentation using MySQL.
 
 ## File Structure
 ```
@@ -26,7 +26,7 @@ DataAnalytics-Assessment/
 **Approach:**
 - Joined tables `users_customuser`, `plans_plan`, and `savings_savingsaccount` together.
 - Filtered for `confirmed_amount > 0` to focus on funded plans.
-- Used conditional aggregation (COUNT(DISTINCT CASE WHEN ... THEN plan_id END)) to count unique savings and investment plans per user.
+- Used conditional aggregation `(COUNT(DISTINCT CASE WHEN ... THEN plan_id END))` to count unique savings and investment plans per user.
 - Grouped by customer and used `HAVING` to ensure only saving and investment plans were present.
 - Summed and converted confirmed_amount (in kobo) to currency units (Naira), then ordered by total deposits in a descending order.
 
@@ -34,7 +34,7 @@ DataAnalytics-Assessment/
 
 ### 2. Customer Segmentation by Transaction Frequency
 
-**Task:** Categorise users into 'High', 'Medium', or 'Low' frequency groups based on average monthly transactions.
+**Task:** Categorise users into `High`, `Medium`, or `Low` frequency groups based on average monthly transactions.
 
 **Approach:**
 - Created a CTE (`user_trans`) to calculate total transactions and months active using `TIMESTAMPDIFF` and `MIN/MAX` of transaction dates.
@@ -59,7 +59,7 @@ DataAnalytics-Assessment/
 
 **Task:** Estimate CLV using the formula:
 
-CLV = (Total Transactions / Tenure in Months) \* 12 \* Average Profit per Transaction
+`CLV = (Total Transactions / Tenure in Months) \* 12 \* Average Profit per Transaction`
 
 Assumption: Profit per transaction is 0.1% of the transaction value.
 
@@ -78,4 +78,4 @@ Assumption: Profit per transaction is 0.1% of the transaction value.
 - **File Import Lock**: MySQL Workbench refused to import the dump due to file locks. Switched to command-line import using the full executable path.
 - **Clarifying 'Inflow' Definition**: The question stated “inflow” without specifying transaction types.
 Resolved by exploring the data, confirmed_amount > 0 was used to infer actual money-in transactions.
-- **Avoiding division by zero**: In CLV calculation, tenure could be zero for new users. Resolved by using NULLIF(..., 0) in the denominator to avoid errors.
+- **Avoiding division by zero**: In CLV calculation, tenure could be zero for new users. Resolved by using `NULLIF(..., 0)` in the denominator to avoid errors.
